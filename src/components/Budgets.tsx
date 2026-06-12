@@ -55,13 +55,13 @@ export default function Budgets({
   const wantsAllocatedSum = budgets.filter(b => b.classification === 'wants').reduce((sum, b) => sum + b.allocated, 0);
   const savingsAllocatedSum = budgets.filter(b => b.classification === 'savings').reduce((sum, b) => sum + b.allocated, 0);
 
-  const needsLimitSum = Math.max(0, totalCombinedBalance) * 0.50;
-  const wantsLimitSum = Math.max(0, totalCombinedBalance) * 0.30;
-  const savingsLimitSum = Math.max(0, totalCombinedBalance) * 0.20;
+  const needsLimitSum = Math.max(0, totalIncome) * 0.50;
+  const wantsLimitSum = Math.max(0, totalIncome) * 0.30;
+  const savingsLimitSum = Math.max(0, totalIncome) * 0.20;
 
-  const isNeedsOver = needsAllocatedSum > needsLimitSum && totalCombinedBalance > 0;
-  const isWantsOver = wantsAllocatedSum > wantsLimitSum && totalCombinedBalance > 0;
-  const isSavingsOver = savingsAllocatedSum > savingsLimitSum && totalCombinedBalance > 0;
+  const isNeedsOver = needsAllocatedSum > needsLimitSum && totalIncome > 0;
+  const isWantsOver = wantsAllocatedSum > wantsLimitSum && totalIncome > 0;
+  const isSavingsOver = savingsAllocatedSum > savingsLimitSum && totalIncome > 0;
 
   const handleNameChange = (val: string) => {
     setName(val);
