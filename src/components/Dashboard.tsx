@@ -23,7 +23,8 @@ import {
   AlertCircle, 
   Lightbulb, 
   ShieldCheck,
-  Check
+  Check,
+  PercentCircle
 } from 'lucide-react';
 import { Transaction, BudgetBucket, DebtItem, BankAccount } from '../types';
 
@@ -843,6 +844,49 @@ export default function Dashboard({
             })}
           </div>
         )}
+      </div>
+
+      {/* 7. Fitur Tambahan (Rasio Hutang & Manajemen Cadangan) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        
+        {/* Rasio Hutang Quick Link Card */}
+        <div 
+          onClick={() => setActiveTab('debts')}
+          className="bg-white/5 border border-white/10 hover:border-indigo-500/20 p-5 rounded-3xl cursor-pointer transition-all hover:scale-[1.01] active:scale-95 group relative overflow-hidden shadow-sm"
+        >
+          <div className="absolute right-0 bottom-0 translate-x-3 translate-y-3 opacity-10 group-hover:scale-110 transition-transform duration-300">
+            <PercentCircle className="w-20 h-20 text-indigo-400" />
+          </div>
+          <div>
+            <span className="text-[10px] text-indigo-400 font-extrabold uppercase tracking-wider block">Kesehatan Kredit</span>
+            <h4 className="text-sm font-black text-white mt-1 group-hover:text-indigo-300 transition-colors flex items-center gap-1.5">
+              Rasio Hutang & Cicilan 💳
+            </h4>
+            <p className="text-xs text-slate-400 mt-2.5 leading-relaxed font-semibold">
+              Kalkulasi Debt-to-Income (DTI) sesuai acuan CFP. Total cicilan anda saat ini adalah <strong className="text-rose-400">Rp {totalMonthlyDebt.toLocaleString('id-ID')}</strong>/bulan. Tap untuk kelola hutang.
+            </p>
+          </div>
+        </div>
+
+        {/* Manajemen Cadangan Quick Link Card */}
+        <div 
+          onClick={() => setActiveTab('backup')}
+          className="bg-white/5 border border-white/10 hover:border-violet-500/20 p-5 rounded-3xl cursor-pointer transition-all hover:scale-[1.01] active:scale-95 group relative overflow-hidden shadow-sm"
+        >
+          <div className="absolute right-0 bottom-0 translate-x-3 translate-y-3 opacity-10 group-hover:scale-110 transition-transform duration-300">
+            <Check className="w-20 h-20 text-violet-400" />
+          </div>
+          <div>
+            <span className="text-[10px] text-violet-400 font-extrabold uppercase tracking-wider block">Konektivitas Data</span>
+            <h4 className="text-sm font-black text-white mt-1 group-hover:text-violet-300 transition-colors flex items-center gap-1.5">
+              Backup / Restore Text 🔄
+            </h4>
+            <p className="text-xs text-slate-400 mt-2.5 leading-relaxed font-semibold">
+              Ekspor seluruh catatan mutasi keuangan, alokasi saku, dan dana darurat anda ke dalam format teks salin-tempel yang aman dan praktis. Tap untuk backup.
+            </p>
+          </div>
+        </div>
+
       </div>
 
     </div>

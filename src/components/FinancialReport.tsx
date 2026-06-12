@@ -441,7 +441,7 @@ export default function FinancialReport({
                 
                 <div className="space-y-2.5">
                   {categorySummary.map(([cat, amt]) => {
-                    const ratio = periodExpense > 0 ? (amt / periodExpense) * 105 : 0;
+                    const ratio = periodExpense > 0 ? (amt / periodExpense) * 100 : 0;
                     return (
                       <div key={cat} className="space-y-1">
                         <div className="flex justify-between text-xs font-bold">
