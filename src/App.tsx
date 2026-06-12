@@ -209,7 +209,7 @@ export default function App() {
   };
 
   const handleExportBackup = () => {
-    const backupPayload = {
+    return {
       budgets,
       transactions,
       debts,
@@ -218,21 +218,18 @@ export default function App() {
       exportedAt: new Date().toISOString(),
       app: 'SakuPintar'
     };
-
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupPayload, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", dataStr);
-    const dateStr = new Date().toISOString().split('T')[0];
-    downloadAnchor.setAttribute("download", `sakupintar_backup_${dateStr}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
   };
 
   const handleImportBackup = (parsedData: any) => {
     if (!parsedData || typeof parsedData !== 'object') {
-      alert('Data backup tidak valid.');
-      return;
+      alert('Format data cadangan tidak valid (harus berupa JSON object).');
+      return false;
+    }
+    
+    // Check if it's indeed SakuPintar backup
+    if (parsedData.app !== 'SakuPintar' && !parsedData.budgets && !parsedData.transactions) {
+      alert('Maaf, file ini tidak dikenali sebagai format cadangan SakuPintar.');
+      return false;
     }
     
     const { budgets: impBudgets, transactions: impTrx, debts: impDebts, startingCash: impCash, bankAccounts: impBanks } = parsedData;
@@ -244,9 +241,10 @@ export default function App() {
       if (typeof impCash === 'number') setStartingCash(impCash);
       if (Array.isArray(impBanks)) setBankAccounts(impBanks);
 
-      alert('Cadangan data SakuPintar berhasil dipulihkan!');
+      return true;
     } catch (err: any) {
-      alert('Gagal mengimpor data: ' + err.message);
+      alert('Gagal mengimpor data ke aplikasi: ' + err.message);
+      return false;
     }
   };
 
