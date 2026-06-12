@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "User global configs and financial settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Authenticated Google user ID" },
+        "displayName": { "type": "string", "description": "User full name from Google" },
+        "email": { "type": "string", "description": "User email address" },
+        "photoURL": { "type": "string", "description": "User Google profile avatar URL" },
+        "startingCash": { "type": "number", "description": "Initial cash flow starting amount" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Time the profile was updated" }
+      },
+      "required": ["uid", "startingCash"]
+    },
+    "budgetBucket": {
+      "title": "BudgetBucket",
+      "description": "Custom budget allocation categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Budget bucket identifier" },
+        "name": { "type": "string", "description": "Aesthetic category name" },
+        "allocated": { "type": "number", "description": "Rupiah cash allocated to this bucket" },
+        "spent": { "type": "number", "description": "Current auto-computed transaction expenditure" },
+        "color": { "type": "string", "description": "Tailwind color class string" },
+        "icon": { "type": "string", "description": "Identifiable emoji icon character" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last sync moment" }
+      },
+      "required": ["id", "name", "allocated", "color", "icon"]
+    },
+    "transaction": {
+      "title": "Transaction",
+      "description": "Individual credit and debit records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Transaction identifier" },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Income or Expense transaction" },
+        "amount": { "type": "number", "description": "Cost in Rupiah" },
+        "category": { "type": "string", "description": "Transaction category classification" },
+        "date": { "type": "string", "description": "Transaction date as YYYY-MM-DD" },
+        "description": { "type": "string", "description": "Human descriptive tag" },
+        "budgetId": { "type": "string", "description": "Optional budget bucket reference" },
+        "sourceType": { "type": "string", "enum": ["cash", "bank"], "description": "Financial pool source" },
+        "bankName": { "type": "string", "description": "Associated bank name" },
+        "bankAccountId": { "type": "string", "description": "Connected Bank Account ID" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Sync timestamp" }
+      },
+      "required": ["id", "type", "amount", "category", "date", "description", "sourceType"]
+    },
+    "debtItem": {
+      "title": "DebtItem",
+      "description": "An outstanding active debt or loan obligation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique debt ID" },
+        "name": { "type": "string", "description": "Institution or credit name" },
+        "monthlyPayment": { "type": "number", "description": "Rupiah payment due monthly" },
+        "totalAmount": { "type": "number", "description": "Total principal sum in Rupiah" },
+        "category": { "type": "string", "enum": ["credit_card", "mortgage", "car_loan", "personal_loan", "other"], "description": "Relational category code" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Sync update time" }
+      },
+      "required": ["id", "name", "monthlyPayment", "totalAmount", "category"]
+    },
+    "bankAccount": {
+      "title": "BankAccount",
+      "description": "A connected digital bank account or wallet",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique bank ID" },
+        "bankName": { "type": "string", "description": "BCA, Bank Jago, Mandiri, etc." },
+        "accountName": { "type": "string", "description": "Aesthetic name of the account" },
+        "startingBalance": { "type": "number", "description": "Rupiah opening balance" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update moment" }
+      },
+      "required": ["id", "bankName", "accountName", "startingBalance"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "User master settings and opening balance details"
+    },
+    "/users/{userId}/budgets/{budgetId}": {
+      "schema": "budgetBucket",
+      "description": "Dynamic budget goals and allocations"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "transaction",
+      "description": "Detailed multi-currency transaction history logs"
+    },
+    "/users/{userId}/debts/{debtId}": {
+      "schema": "debtItem",
+      "description": "Active liabilities and financial checklist records"
+    },
+    "/users/{userId}/banks/{bankId}": {
+      "schema": "bankAccount",
+      "description": "User linked digital bank accounts and card balances"
+    }
+  }
+}

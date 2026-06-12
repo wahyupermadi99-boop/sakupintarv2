@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Base custom styles to simulate fluid native Android momentum scrolling */
+body {
+  font-family: var(--font-sans);
+  background-color: #050110;
+  color: #f8fafc;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide web scrollbars for a clean native app feeling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Pulse animation for AI loader */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 10px rgba(52, 211, 153, 0.6);
+    transform: scale(1.03);
+  }
+}
+
+.ai-pulse-glow {
+  animation: glow 3s infinite ease-in-out;
+}

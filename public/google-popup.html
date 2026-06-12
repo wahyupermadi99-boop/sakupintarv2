@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In - SakuPintar</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0c081e;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px 24px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      border-top: 3px solid #6366f1;
+      border-right: 3px solid #6366f1;
+      width: 48px;
+      height: 48px;
+      animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+      margin: 0 auto 24px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #f3f4f6;
+    }
+    p {
+      color: #9ca3af;
+      font-size: 13.5px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .btn-login {
+      display: none;
+      background: #6366f1;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+    .btn-login:hover {
+      background: #4f46e5;
+    }
+    .error {
+      color: #f87171;
+      font-weight: 600;
+      font-size: 13px;
+      background: rgba(248, 113, 113, 0.08);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 20px;
+      display: none;
+      word-break: break-all;
+      text-align: left;
+    }
+    .brand {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #6366f1;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">SakuPintar Cloud</div>
+    <div class="spinner" id="spinner"></div>
+    <h3 id="status-title">Menghubungkan...</h3>
+    <p id="status-desc">Menghubungkan layanan pencatatan awan SakuPintar aman dengan Google Account Anda.</p>
+    <button class="btn-login" id="btn-login">Masuk dengan Google</button>
+    <div class="error" id="error"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
+    import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+
+    let authInitialized = false;
+    let cachedConfig = null;
+
+    // Load config from sessionStorage to survive redirects
+    const storedConfig = sessionStorage.getItem('FB_CONFIG');
+    if (storedConfig) {
+      cachedConfig = JSON.parse(storedConfig);
+      // Wait slightly so that browser sets up window.opener, then initialize
+      setTimeout(() => {
+        initAuthWithConfig(cachedConfig);
+      }, 500);
+    }
+
+    // Send a message to parent indicating we are ready and waiting for config
+    function signalReady() {
+      if (window.opener) {
+        window.opener.postMessage({ type: 'GOOGLE_POPUP_READY' }, '*');
+      }
+    }
+
+    // Try signaling periodically until config received
+    let readyInterval = null;
+    if (!cachedConfig) {
+      readyInterval = setInterval(signalReady, 300);
+    }
+
+    window.addEventListener('message', async (event) => {
+      // Validate that message is from opener and same origin
+      if (event.source !== window.opener) return;
+      if (event.origin !== window.location.origin) return;
+      
+      const { type, config } = event.data;
+      if (type === 'INIT_FIREBASE_AUTH' && !authInitialized) {
+        sessionStorage.setItem('FB_CONFIG', JSON.stringify(config));
+        cachedConfig = config;
+        initAuthWithConfig(config);
+      }
+    });
+
+    async function initAuthWithConfig(config) {
+      if (authInitialized) return;
+      authInitialized = true;
+      if (readyInterval) clearInterval(readyInterval);
+
+      try {
+        const app = initializeApp(config);
+        const auth = getAuth(app);
+        
+        // 1. Check if we already have a redirect result
+        document.getElementById('status-title').textContent = 'Memeriksa Verifikasi...';
+        const result = await getRedirectResult(auth);
+        
+        if (result) {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (credential) {
+            handleAuthSuccess(credential.idToken, credential.accessToken);
+            return;
+          }
+        }
+
+        // 2. If no result, let's do signInWithRedirect
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+          prompt: 'select_account'
+        });
+
+        document.getElementById('status-title').textContent = 'Membuka Google Login...';
+        document.getElementById('status-desc').textContent = 'Mengalihkan Anda ke halaman masuk Google aman.';
+
+        // Attempt automatic redirect first
+        try {
+          await signInWithRedirect(auth, provider);
+        } catch (redirectErr) {
+          console.warn("Auto-redirect blocked or failed:", redirectErr);
+          // If auto redirect gets blocked, let user proceed with manual button click
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('status-title').textContent = 'SakuPintar Cloud';
+          document.getElementById('status-desc').textContent = 'Silakan klik tombol di bawah untuk melanjutkan masuk dengan Google.';
+          const btn = document.getElementById('btn-login');
+          btn.style.display = 'block';
+          btn.onclick = async () => {
+            btn.style.display = 'none';
+            document.getElementById('spinner').style.display = 'block';
+            await signInWithRedirect(auth, provider);
+          };
+        }
+
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
+
+    function handleAuthSuccess(idToken, accessToken) {
+      // Save state to indicate popup is finishing
+      sessionStorage.removeItem('FB_CONFIG');
+      
+      if (window.opener) {
+        window.opener.postMessage({
+          type: 'GOOGLE_POPUP_SUCCESS',
+          idToken: idToken,
+          accessToken: accessToken
+        }, window.location.origin);
+        
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('status-title').textContent = 'Koneksi Berhasil!';
+        document.getElementById('status-desc').textContent = 'Akun Google berhasil terhubung. Menutup jendela otomatis...';
+        setTimeout(() => window.close(), 1200);
+      } else {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('status-title').textContent = 'Masuk Berhasil';
+        document.getElementById('status-desc').textContent = 'Anda bisa menutup tab ini sekarang.';
+      }
+    }
+
+    function handleAuthError(err) {
+      console.error(err);
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('btn-login').style.display = 'none';
+      document.getElementById('status-title').textContent = 'Koneksi Gagal';
+      document.getElementById('status-desc').textContent = 'Terjadi kendala saat melakukan Google Sign-In.';
+      const errDiv = document.getElementById('error');
+      errDiv.textContent = err.message || JSON.stringify(err);
+      errDiv.style.display = 'block';
+
+      if (window.opener) {
+        window.opener.postMessage({
+          type: 'GOOGLE_POPUP_FAILURE',
+          error: err.message || String(err)
+        }, window.location.origin);
+      }
+    }
+
+    // Run initial ready signal immediately
+    signalReady();
+  </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Reusable global helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Validation Blueprint for User Profiles
+    function isValidUserProfile(profile) {
+      return profile.uid is string 
+        && profile.uid.size() <= 128
+        && profile.uid == request.auth.uid
+        && profile.startingCash is number
+        && profile.startingCash >= 0
+        && (profile.displayName == null || (profile.displayName is string && profile.displayName.size() <= 200))
+        && (profile.email == null || (profile.email is string && profile.email.size() <= 200))
+        && (profile.photoURL == null || (profile.photoURL is string && profile.photoURL.size() <= 1048));
+    }
+
+    // Validation Blueprint for Budget Buckets
+    function isValidBudget(budget) {
+      return budget.id is string 
+        && budget.id.size() <= 128
+        && budget.name is string 
+        && budget.name.size() <= 120
+        && budget.allocated is number 
+        && budget.allocated >= 0
+        && (budget.spent == null || budget.spent is number)
+        && budget.color is string 
+        && budget.color.size() <= 100
+        && budget.icon is string 
+        && budget.icon.size() <= 10;
+    }
+
+    // Validation Blueprint for Transactions
+    function isValidTransaction(t) {
+      return t.id is string 
+        && t.id.size() <= 128
+        && (t.type == 'income' || t.type == 'expense')
+        && t.amount is number 
+        && t.amount >= 0
+        && t.category is string 
+        && t.category.size() <= 100
+        && t.date is string 
+        && t.date.size() <= 30
+        && t.description is string 
+        && t.description.size() <= 300
+        && (t.budgetId == null || (t.budgetId is string && t.budgetId.size() <= 128))
+        && (t.sourceType == null || (t.sourceType is string && (t.sourceType == 'cash' || t.sourceType == 'bank')))
+        && (t.bankName == null || (t.bankName is string && t.bankName.size() <= 100))
+        && (t.bankAccountId == null || (t.bankAccountId is string && t.bankAccountId.size() <= 128));
+    }
+
+    // Validation Blueprint for Debts
+    function isValidDebt(debt) {
+      return debt.id is string 
+        && debt.id.size() <= 128
+        && debt.name is string 
+        && debt.name.size() <= 120
+        && debt.monthlyPayment is number 
+        && debt.monthlyPayment >= 0
+        && debt.totalAmount is number 
+        && debt.totalAmount >= 0
+        && debt.category is string 
+        && (debt.category == 'credit_card' || debt.category == 'mortgage' || debt.category == 'car_loan' || debt.category == 'personal_loan' || debt.category == 'other');
+    }
+
+    // Validation Blueprint for Linked Banks
+    function isValidBank(bank) {
+      return bank.id is string 
+        && bank.id.size() <= 128
+        && bank.bankName is string 
+        && bank.bankName.size() <= 100
+        && bank.accountName is string 
+        && bank.accountName.size() <= 120
+        && bank.startingBalance is number;
+    }
+
+    // MATCH BLOCKS FOR MASTER COLLECTIONS
+    // 1. User Profiles
+    match /users/{userId} {
+      allow read, delete: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUserProfile(incoming());
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUserProfile(incoming()) 
+        && incoming().uid == existing().uid;
+
+      // 2. Budgets Subcollection
+      match /budgets/{budgetId} {
+        allow read, delete: if isOwner(userId) && isValidId(userId) && isValidId(budgetId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(budgetId) && isValidBudget(incoming());
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(budgetId) && isValidBudget(incoming())
+          && incoming().id == existing().id;
+      }
+
+      // 3. Transactions Subcollection
+      match /transactions/{transactionId} {
+        allow read, delete: if isOwner(userId) && isValidId(userId) && isValidId(transactionId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(transactionId) && isValidTransaction(incoming());
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(transactionId) && isValidTransaction(incoming())
+          && incoming().id == existing().id;
+      }
+
+      // 4. Debts Subcollection
+      match /debts/{debtId} {
+        allow read, delete: if isOwner(userId) && isValidId(userId) && isValidId(debtId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(debtId) && isValidDebt(incoming());
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(debtId) && isValidDebt(incoming())
+          && incoming().id == existing().id;
+      }
+
+      // 5. Bank Accounts Subcollection
+      match /banks/{bankId} {
+        allow read, delete: if isOwner(userId) && isValidId(userId) && isValidId(bankId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(bankId) && isValidBank(incoming());
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(bankId) && isValidBank(incoming())
+          && incoming().id == existing().id;
+      }
+    }
+  }
+}

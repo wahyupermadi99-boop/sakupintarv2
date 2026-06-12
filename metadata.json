@@ -1,0 +1,6 @@
+{
+  "name": "SakuPintar",
+  "description": "Aplikasi pencatat keuangan pribadi cerdas dengan fitur budgeting dinamis, kalkulator rasio hutang, dan laporan kesehatan finansial bertenaga AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
