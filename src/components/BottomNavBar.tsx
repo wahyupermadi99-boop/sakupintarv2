@@ -23,8 +23,8 @@ export default function BottomNavBar({ activeTab, setActiveTab }: BottomNavBarPr
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-2xl border-t border-white/10 px-1 pb-safe-bottom shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-40 max-w-md mx-auto rounded-t-3xl">
-      <div className="flex justify-between items-center h-16 py-1 select-none">
+    <div className="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-2xl border-t border-white/10 px-1 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-1.5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-40 max-w-md mx-auto rounded-t-3xl">
+      <div className="flex justify-between items-center h-14 select-none">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

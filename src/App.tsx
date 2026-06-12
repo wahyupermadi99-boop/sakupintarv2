@@ -362,7 +362,7 @@ export default function App() {
       <div className="flex-1 md:pl-64 lg:pl-72 w-full flex flex-col min-h-screen">
         
         {/* Mobile-only sticky top header bar */}
-        <header className={`md:hidden py-4 px-5 flex justify-between items-center border-b sticky top-0 backdrop-blur-md z-20 transition-colors duration-300 ${
+        <header className={`md:hidden pt-[calc(env(safe-area-inset-top)+1rem)] pb-4 px-5 flex justify-between items-center border-b sticky top-0 backdrop-blur-md z-20 transition-colors duration-300 ${
           isDark ? 'bg-[#050110]/80 border-white/5' : 'bg-slate-50/95 border-slate-200 text-slate-800 shadow-sm'
         }`}>
           <div>
@@ -394,7 +394,7 @@ export default function App() {
         </header>
 
         {/* Responsive Content Stage */}
-        <main className="flex-1 w-full max-w-5xl mx-auto px-5 py-6 md:py-10 pb-28 md:pb-12">
+        <main className="flex-1 w-full max-w-5xl mx-auto px-5 py-6 md:py-10 pb-[calc(env(safe-area-inset-bottom)+7rem)] md:pb-12">
 
           <AnimatePresence mode="wait">
             <motion.div
