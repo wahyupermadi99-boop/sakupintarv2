@@ -11,7 +11,10 @@ import {
   RefreshCw, 
   Database, 
   ShieldCheck, 
-  Info 
+  Info,
+  Sparkles,
+  Download,
+  Smartphone
 } from 'lucide-react';
 
 interface BackupWidgetProps {
@@ -306,6 +309,241 @@ export default function BackupWidget({
             <p className={`text-[11.5px] leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               SakuPintar tidak mentransmisikan nominal tabungan, rincian hutang, atau rekening bank Anda ke server mana pun di internet. Seluruh pengelolaan dan kalkulasi berlangsung 100% secara lokal di browser Anda. Dengan mengunduh file cadangan secara berkala, Anda memegang kendali kepemilikan berdaulat penuh atas privasi finansial Anda.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. BLACK EDITION FINTECH CUSTOMIZER & APP ICON INSTALLER */}
+      <div className={`p-6 rounded-3xl border transition-all duration-300 ${
+        isDark ? 'bg-slate-950/40 border-white/5' : 'bg-white border-slate-200/80 shadow-md'
+      }`}>
+        <div className="flex items-center gap-2 border-b pb-3 border-slate-200/5 mb-4">
+          <div className="p-2 rounded-xl bg-cyan-550/10 bg-cyan-950/30 text-cyan-400">
+            <Smartphone className="w-5 h-5 animate-bounce" />
+          </div>
+          <div>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+              Panduan Ubah Nama & Pasang Icon Hitam SakuPintar
+            </h3>
+            <span className="text-[10px] text-slate-500 font-bold">Kustomisasi PWA Fintech Gen Z Premium</span>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            Untuk merubah nama shortcut di smartphone Anda menjadi <strong className="text-white">SakuPintar</strong> serta mengganti icon lama (putih & biru/Smart Saku) dengan <strong className="text-cyan-400">Icon Hitam Solid Futuristik</strong> yang super keren, ikuti langkah-langkah di bawah ini:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            {/* Guide Steps */}
+            <div className={`p-4 rounded-2xl space-y-3 ${
+              isDark ? 'bg-black/30' : 'bg-slate-50'
+            }`}>
+              <span className="text-[10px] font-black uppercase tracking-wider text-cyan-400 block">Langkah Re-Install (Cara Cepat di HP)</span>
+              <ol className="list-decimal list-inside space-y-2 text-slate-400 font-medium">
+                <li><strong className="text-slate-350">Hapus/Uninstall</strong> ikon shortcut "Smart Saku" lama dari layar utama handphone Anda sekarang.</li>
+                <li><strong className="text-slate-350">Hapus Cache</strong> browser mobile Anda atau buka tautan web app ini pada tab menu baru / private tab sekali.</li>
+                <li><strong className="text-slate-350">Install Ulang</strong> dengan mengetuk tombol titik tiga di Chrome dan pilih <span className="text-cyan-400 font-bold">"Tambahkan ke Layar Utama" / "Add to Homescreen"</span> (Safari di iOS: tap tombol Share & "Add to Homescreen").</li>
+                <li>Ikon akan otomatis berubah menjadi hitam pekat, dan label shortcut akan berganti menjadi <span className="text-cyan-400 font-bold">SakuPintar</span>!</li>
+              </ol>
+            </div>
+
+            {/* Generator Tool */}
+            <div className={`p-4 rounded-2xl flex flex-col justify-between ${
+              isDark ? 'bg-gradient-to-tr from-cyan-950/20 via-slate-900/40 to-black/30 border border-cyan-400/10' : 'bg-cyan-50/20 border border-cyan-100'
+            }`}>
+              <div>
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                  <span className="text-[10px] font-black uppercase tracking-wider text-cyan-450 text-cyan-400">PWA Black Icon Generator</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-slate-400 mb-2 font-medium">
+                  Unduh asset file gambar PNG icon edisi hitam mengkilap hasil lukisan vektor digital premium untuk menggantikan master file icon di penyimpanan manual Anda.
+                </p>
+                
+                {/* Visual Preview */}
+                <div className="flex justify-center my-3">
+                  <div className="w-16 h-16 rounded-2xl bg-neutral-950 p-2 border border-white/10 shadow-lg relative flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/20 to-fuchsia-500/20 rounded-2xl blur-xs" />
+                    <svg viewBox="0 0 100 100" fill="none" className="w-full h-full relative z-10">
+                      <defs>
+                        <linearGradient id="coolGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#22d3ee" />
+                          <stop offset="100%" stopColor="#d946ef" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M25 30 C25 22, 75 22, 75 30 V58 C75 72, 50 85, 50 85 C50 85, 25 72, 25 58 Z" stroke="url(#coolGrad)" strokeWidth="6" strokeLinejoin="round" fill="rgba(34,211,238,0.1)"/>
+                      <path d="M50 38 L53 46 L61 49 L53 52 L50 60 L47 52 L39 49 L47 46 Z" fill="#ffffff" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                <button
+                  onClick={() => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 192;
+                    canvas.height = 192;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+                    // Draw master black theme icon
+                    const grad = ctx.createLinearGradient(0, 0, 192, 192);
+                    grad.addColorStop(0, '#04020a');
+                    grad.addColorStop(1, '#0e081c');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, 192, 192);
+
+                    // Add holographic glow lines/pattern
+                    ctx.strokeStyle = 'rgba(34, 211, 238, 0.08)';
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < 192; i += 12) {
+                      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 192); ctx.stroke();
+                      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(192, i); ctx.stroke();
+                    }
+
+                    // Rounded outer ring
+                    ctx.strokeStyle = 'rgba(217, 70, 239, 0.15)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(96, 96, 75, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    // Wallet shape
+                    const pathGrad = ctx.createLinearGradient(40, 40, 152, 152);
+                    pathGrad.addColorStop(0, '#22d3ee');
+                    pathGrad.addColorStop(0.5, '#d946ef');
+                    pathGrad.addColorStop(1, '#ff6b3d');
+                    ctx.strokeStyle = pathGrad;
+                    ctx.lineWidth = 6;
+                    ctx.lineJoin = 'round';
+                    ctx.lineCap = 'round';
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(55, 60);
+                    ctx.quadraticCurveTo(96, 45, 137, 60);
+                    ctx.lineTo(137, 115);
+                    ctx.quadraticCurveTo(137, 142, 96, 155);
+                    ctx.quadraticCurveTo(55, 142, 55, 115);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    // Flap path
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(58, 80);
+                    ctx.quadraticCurveTo(96, 96, 134, 80);
+                    ctx.stroke();
+
+                    // Star node
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    const cX = 96, cY = 96;
+                    ctx.moveTo(cX, cY - 24);
+                    ctx.quadraticCurveTo(cX, cY, cX + 6, cY);
+                    ctx.lineTo(cX + 24, cY);
+                    ctx.quadraticCurveTo(cX, cY, cX, cY + 6);
+                    ctx.lineTo(cX, cY + 24);
+                    ctx.quadraticCurveTo(cX, cY, cX - 6, cY);
+                    ctx.lineTo(cX - 24, cY);
+                    ctx.quadraticCurveTo(cX, cY, cX, cY - 6);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    const link = document.createElement('a');
+                    link.download = 'icon-192.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                  }}
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold bg-slate-900 border border-white/5 hover:border-white/10 hover:bg-slate-850 rounded-xl cursor-pointer text-slate-200 transition-all active:scale-95"
+                >
+                  <Download className="w-3.5 h-3.5 text-cyan-400" />
+                  Icon 192 (PNG)
+                </button>
+                <button
+                  onClick={() => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 512;
+                    canvas.height = 512;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+                    // Draw master black theme icon
+                    const grad = ctx.createLinearGradient(0, 0, 512, 512);
+                    grad.addColorStop(0, '#04020a');
+                    grad.addColorStop(1, '#0e081c');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, 512, 512);
+
+                    // Add holographic glow lines/pattern
+                    ctx.strokeStyle = 'rgba(34, 211, 238, 0.08)';
+                    ctx.lineWidth = 2;
+                    for (let i = 0; i < 512; i += 32) {
+                      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+                      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
+                    }
+
+                    // Rounded outer ring
+                    ctx.strokeStyle = 'rgba(217, 70, 239, 0.15)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.arc(256, 256, 200, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    // Wallet shape
+                    const pathGrad = ctx.createLinearGradient(100, 100, 412, 412);
+                    pathGrad.addColorStop(0, '#22d3ee');
+                    pathGrad.addColorStop(0.5, '#d946ef');
+                    pathGrad.addColorStop(1, '#ff6b3d');
+                    ctx.strokeStyle = pathGrad;
+                    ctx.lineWidth = 14;
+                    ctx.lineJoin = 'round';
+                    ctx.lineCap = 'round';
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(146, 160);
+                    ctx.quadraticCurveTo(256, 120, 366, 160);
+                    ctx.lineTo(366, 310);
+                    ctx.quadraticCurveTo(366, 380, 256, 415);
+                    ctx.quadraticCurveTo(146, 380, 146, 310);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    // Flap path
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                    ctx.lineWidth = 8;
+                    ctx.beginPath();
+                    ctx.moveTo(154, 214);
+                    ctx.quadraticCurveTo(256, 256, 358, 214);
+                    ctx.stroke();
+
+                    // Star node
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    const cX = 256, cY = 256;
+                    ctx.moveTo(cX, cY - 64);
+                    ctx.quadraticCurveTo(cX, cY, cX + 16, cY);
+                    ctx.lineTo(cX + 64, cY);
+                    ctx.quadraticCurveTo(cX, cY, cX, cY + 16);
+                    ctx.lineTo(cX, cY + 64);
+                    ctx.quadraticCurveTo(cX, cY, cX - 16, cY);
+                    ctx.lineTo(cX - 64, cY);
+                    ctx.quadraticCurveTo(cX, cY, cX, cY - 16);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    const link = document.createElement('a');
+                    link.download = 'icon-512.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                  }}
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-bold bg-slate-900 border border-white/5 hover:border-white/10 hover:bg-slate-850 rounded-xl cursor-pointer text-slate-200 transition-all active:scale-95"
+                >
+                  <Download className="w-3.5 h-3.5 text-fuchsia-400" />
+                  Icon 512 (PNG)
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
