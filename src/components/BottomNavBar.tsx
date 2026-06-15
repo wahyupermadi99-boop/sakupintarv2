@@ -76,7 +76,7 @@ export default function BottomNavBar({ activeTab, setActiveTab }: BottomNavBarPr
           <span className={`text-[8.5px] font-black mt-1 transition-colors duration-200 ${activeTab === 'financial-report' ? 'text-slate-100' : 'text-slate-400'}`}>Rapor</span>
         </button>
 
-        {/* Right Item 2: SakuAI Advisor */}
+        {/* Right Item 2: SakuPintar AI Advisor */}
         <button
           id="nav-btn-sakuai"
           onClick={() => setActiveTab('ai-advisor')}
@@ -86,7 +86,7 @@ export default function BottomNavBar({ activeTab, setActiveTab }: BottomNavBarPr
             <div className="absolute top-1 w-11 h-8 rounded-full bg-teal-500/10 -z-10 animate-pulse" />
           )}
           <BrainCircuit className={`w-5 h-5 transition-all duration-200 ${activeTab === 'ai-advisor' ? 'text-teal-400 scale-110 drop-shadow-[0_0_10px_rgba(20,184,166,0.3)]' : 'text-slate-450 text-slate-400 group-hover:text-slate-200'}`} />
-          <span className={`text-[8.5px] font-black mt-1 transition-colors duration-200 ${activeTab === 'ai-advisor' ? 'text-slate-100' : 'text-slate-400'}`}>SakuAI</span>
+          <span className={`text-[8.5px] font-black mt-1 transition-colors duration-200 ${activeTab === 'ai-advisor' ? 'text-slate-100' : 'text-slate-400'}`}>SakuPintar AI</span>
         </button>
 
       </div>

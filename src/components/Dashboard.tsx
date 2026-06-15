@@ -304,7 +304,7 @@ export default function Dashboard({
         <div>
           <span className="text-xs font-black tracking-wider uppercase text-slate-400">Radar Kesehatan Finansial</span>
           <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-1.5">
-            Smart Saku Dashboard <span className="animate-bounce">⚡</span>
+            SakuPintar Dashboard <span className="animate-bounce">⚡</span>
           </h2>
         </div>
         
@@ -342,7 +342,7 @@ export default function Dashboard({
             onClick={() => setActiveTab('ai-advisor')}
             className="self-start px-4 py-2 mt-1 bg-white text-slate-950 rounded-2xl text-[11.5px] font-extrabold hover:bg-slate-100 transition-colors shadow-md active:scale-95 flex items-center gap-1"
           >
-            Konsultasi SakuAI Planner ✨
+            Konsultasi SakuPintar AI ✨
           </button>
         </div>
       </motion.div>

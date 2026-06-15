@@ -198,7 +198,7 @@ export default function AiAdvisor({
       >
         <span className="text-[10px] font-black tracking-widest uppercase text-teal-400">ANALISIS PREVENTIF</span>
         <h2 className="text-2xl font-black tracking-tight text-white m-0 flex items-center gap-2">
-          SakuAI Advisor <span className="text-xl">✨</span>
+          SakuPintar AI Advisor <span className="text-xl">✨</span>
         </h2>
         <p className="text-slate-400 text-xs">Konsultasikan kesehatan dan kestabilan keuangan harian Anda langsung pada AI.</p>
       </motion.div>
