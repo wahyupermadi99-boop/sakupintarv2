@@ -17,6 +17,7 @@ import FinancialReport from './components/FinancialReport';
 
 // Backup Widget helper
 import BackupWidget from './components/BackupWidget';
+import { SakuPintarLogo } from './components/SakuPintarLogo';
 
 import { Transaction, BudgetBucket, DebtItem, BankAccount } from './types';
 
@@ -249,12 +250,12 @@ export default function App() {
   };
 
   const desktopNavItems = [
-    { id: 'dashboard', label: 'Smart Saku Dashboard', icon: Home, color: 'text-emerald-500' },
+    { id: 'dashboard', label: 'SakuPintar Dashboard', icon: Home, color: 'text-emerald-500' },
     { id: 'budgets', label: 'Alokasi Pagu Saku', icon: PieChart, color: 'text-amber-500' },
     { id: 'transactions', label: 'Catatan Keuangan', icon: Receipt, color: 'text-rose-500' },
     { id: 'debts', label: 'Rasio Hutang', icon: PercentCircle, color: 'text-indigo-400' },
     { id: 'financial-report', label: 'Rapor Keuangan & CFP', icon: FileText, color: 'text-cyan-400' },
-    { id: 'ai-advisor', label: 'SakuAI Planner', icon: BrainCircuit, color: 'text-teal-500' },
+    { id: 'ai-advisor', label: 'SakuPintar AI Planner', icon: BrainCircuit, color: 'text-teal-500' },
     { id: 'backup', label: 'Manajemen Cadangan', icon: FileJson, color: 'text-violet-400 font-bold' },
   ];
 
@@ -275,29 +276,30 @@ export default function App() {
       }`}>
         <div className="space-y-5">
           {/* Logo / Brand block */}
-          <div className="flex items-center justify-between gap-1">
-            <div>
-              <div className="flex items-center gap-1.5 mb-1">
+          <div className="flex items-center gap-3">
+            <SakuPintarLogo size="sm" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 mb-0.5">
                 <span className={`px-2 py-0.5 text-[8.5px] font-black uppercase rounded-full tracking-wider ${
                   isDark ? 'text-cyan-400 bg-cyan-400/10 border border-cyan-400/20' : 'text-cyan-700 bg-cyan-100 border border-cyan-200'
                 }`}>Web Portal</span>
                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
               </div>
-              <h1 className="text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-orange-400">
+              <h1 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-orange-400 leading-none">
                 SAKUPINTAR
               </h1>
-              <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} text-[9px] font-black tracking-widest uppercase`}>Smart Personal Wealth Studio</p>
+              <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} text-[8px] font-black tracking-widest uppercase`}>SakuPintar Wealth Studio</p>
             </div>
 
             {/* Theme switcher button */}
             <button
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              className={`p-2 rounded-xl transition-all border ${
+              className={`p-2 rounded-xl transition-all border flex-shrink-0 ${
                 isDark ? 'bg-white/5 border-white/10 hover:bg-white/10 text-yellow-400' : 'bg-slate-100 border-slate-200 hover:bg-slate-200 text-slate-700 shadow-sm'
               }`}
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {isDark ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
 
@@ -363,11 +365,14 @@ export default function App() {
         <header className={`md:hidden pt-[calc(env(safe-area-inset-top)+1rem)] pb-4 px-5 flex justify-between items-center border-b sticky top-0 backdrop-blur-md z-20 transition-colors duration-300 ${
           isDark ? 'bg-[#050110]/80 border-white/5' : 'bg-slate-50/95 border-slate-200 text-slate-800 shadow-sm'
         }`}>
-          <div>
-            <h1 className="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-orange-400">
-              SAKUPINTAR
-            </h1>
-            <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} text-[8px] font-black tracking-widest uppercase`}>Smart Personal Wealth Studio</p>
+          <div className="flex items-center gap-2">
+            <SakuPintarLogo size="sm" className="w-8 h-8" />
+            <div>
+              <h1 className="text-lg font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-orange-400 leading-none">
+                SAKUPINTAR
+              </h1>
+              <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} text-[7px] font-black tracking-widest uppercase`}>SakuPintar Wealth Studio</p>
+            </div>
           </div>
 
           <div className="flex gap-2 items-center">

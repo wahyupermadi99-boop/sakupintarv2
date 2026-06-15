@@ -27,6 +27,7 @@ import {
   PercentCircle
 } from 'lucide-react';
 import { Transaction, BudgetBucket, DebtItem, BankAccount } from '../types';
+import { SakuPintarLogo } from './SakuPintarLogo';
 
 interface DashboardProps {
   transactions: Transaction[];
@@ -301,11 +302,14 @@ export default function Dashboard({
         transition={{ duration: 0.4 }}
         className="flex items-center justify-between"
       >
-        <div>
-          <span className="text-xs font-black tracking-wider uppercase text-slate-400">Radar Kesehatan Finansial</span>
-          <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-1.5">
-            SakuPintar Dashboard <span className="animate-bounce">⚡</span>
-          </h2>
+        <div className="flex items-center gap-2.5">
+          <SakuPintarLogo size="sm" className="w-9 h-9" />
+          <div>
+            <span className="text-xs font-black tracking-wider uppercase text-slate-400 block leading-tight">Radar Kesehatan Finansial</span>
+            <h2 className="text-xl font-black text-white tracking-tight flex items-center gap-1 mt-0.5 leading-none">
+              SakuPintar Dashboard <span className="animate-bounce">⚡</span>
+            </h2>
+          </div>
         </div>
         
         {/* Dynamic Coin Avatar replacing legacy SH initials */}
