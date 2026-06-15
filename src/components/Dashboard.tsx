@@ -295,32 +295,7 @@ export default function Dashboard({
   return (
     <div className="space-y-6 pb-24 text-slate-800">
       
-      {/* 1. GREETINGS HEADER with SPINNING COIN AVATAR */}
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex items-center justify-between"
-      >
-        <div className="flex items-center gap-2.5">
-          <SakuPintarLogo size="sm" className="w-9 h-9" />
-          <div>
-            <span className="text-xs font-black tracking-wider uppercase text-slate-400 block leading-tight">Radar Kesehatan Finansial</span>
-            <h2 className="text-xl font-black text-white tracking-tight flex items-center gap-1 mt-0.5 leading-none">
-              SakuPintar Dashboard <span className="animate-bounce">⚡</span>
-            </h2>
-          </div>
-        </div>
-        
-        {/* Dynamic Coin Avatar replacing legacy SH initials */}
-        <div 
-          onClick={onQuickAddTransaction}
-          className="w-11 h-11 rounded-2xl bg-amber-400 hover:bg-amber-300 border border-amber-300 flex items-center justify-center cursor-pointer shadow-lg shadow-amber-500/20 active:scale-95 transition-all group"
-          title="Catat Aliran Kas"
-        >
-          <Coins className="w-5 h-5 text-slate-950 animate-pulse group-hover:rotate-12 transition-transform" />
-        </div>
-      </motion.div>
+
 
       {/* Motivational Pop Card Banner */}
       <motion.div
