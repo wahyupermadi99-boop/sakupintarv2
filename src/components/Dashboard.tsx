@@ -27,7 +27,6 @@ import {
   PercentCircle
 } from 'lucide-react';
 import { Transaction, BudgetBucket, DebtItem, BankAccount } from '../types';
-import { SakuPintarLogo } from './SakuPintarLogo';
 
 interface DashboardProps {
   transactions: Transaction[];

@@ -17,7 +17,6 @@ import FinancialReport from './components/FinancialReport';
 
 // Backup Widget helper
 import BackupWidget from './components/BackupWidget';
-import { SakuPintarLogo } from './components/SakuPintarLogo';
 
 import { Transaction, BudgetBucket, DebtItem, BankAccount } from './types';
 
@@ -277,7 +276,6 @@ export default function App() {
         <div className="space-y-5">
           {/* Logo / Brand block */}
           <div className="flex items-center gap-3">
-            <SakuPintarLogo size="sm" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 mb-0.5">
                 <span className={`px-2 py-0.5 text-[8.5px] font-black uppercase rounded-full tracking-wider ${
@@ -366,7 +364,6 @@ export default function App() {
           isDark ? 'bg-[#050110]/80 border-white/5' : 'bg-slate-50/95 border-slate-200 text-slate-800 shadow-sm'
         }`}>
           <div className="flex items-center gap-2">
-            <SakuPintarLogo size="sm" className="w-8 h-8" />
             <div>
               <h1 className="text-lg font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-orange-400 leading-none">
                 SAKUPINTAR
